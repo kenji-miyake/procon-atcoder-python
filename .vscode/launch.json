@@ -1,0 +1,14 @@
+{
+  // See https://go.microsoft.com/fwlink/?linkid=830387 for format details.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "args": ["<", "${fileDirname}/test/sample-1.in"],
+      "console": "integratedTerminal"
+    }
+  ]
+}

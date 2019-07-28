@@ -1,0 +1,58 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558 for format details.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "oj download",
+      "command": "bash",
+      "args": [
+        "-c",
+        "oj download `cat ${fileDirname}/task.json | jq -r .task_url`"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      }
+    },
+    {
+      "type": "shell",
+      "label": "oj test",
+      "command": "bash",
+      "args": ["-c", "oj test -c ${file}"],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "type": "shell",
+      "label": "atcoder-tools codegen",
+      "command": "bash",
+      "args": [
+        "-c",
+        "atcoder-tools codegen --lang python --without-login `cat ${fileDirname}/task.json | jq -r .task_url`"
+      ]
+    },
+    {
+      "type": "shell",
+      "label": "oj login",
+      "command": "bash",
+      "args": [
+        "-c",
+        "export `cat ${workspaceFolder}/.env | grep -v ^# | xargs` && oj login https://atcoder.jp -u $ATCODER_USER_ID -p $ATCODER_PASSWORD"
+      ]
+    },
+    {
+      "type": "shell",
+      "label": "oj submit",
+      "command": "bash",
+      "args": [
+        "-c",
+        "oj submit -y -l Python3 `cat ${fileDirname}/task.json | jq -r .task_url` ${file}"
+      ]
+    }
+  ]
+}
